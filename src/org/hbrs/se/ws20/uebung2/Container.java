@@ -1,9 +1,15 @@
 package org.hbrs.se.ws20.uebung2;
 
+import org.hbrs.se.ws20.uebung3.PersistenceException;
+import org.hbrs.se.ws20.uebung3.PersistenceStrategyStream;
+
+import java.io.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Container{
     LinkedList<Member> objList;
+    private PersistenceStrategyStream ps = new PersistenceStrategyStream();
     private static Container single_instance = null;
     private Container(){
         objList = new LinkedList<>();
@@ -13,6 +19,12 @@ public class Container{
             single_instance = new Container();
         }
         return single_instance;
+    }
+    public void store() throws PersistenceException, IOException {
+        ps.save(objList);
+    }
+    public void load() throws PersistenceException, IOException {
+        this.objList = (LinkedList<Member>) ps.load();
     }
 
     public void addMember(Member member)throws ContainerException {
@@ -40,10 +52,13 @@ public class Container{
         }
         return "Member mit der ID [" + id + "] wurde nicht gefunden.";
     }
-    public void dump(){
-        for(Member idprüfer : objList){
-            System.out.println("Member (ID = [" + idprüfer.toString() + "])");
-        }
+    //public void dump(){
+    //    for(Member idprüfer : objList){
+    //        System.out.println("Member (ID = [" + idprüfer.toString() + "])");
+    //   }
+    //}
+    public List<Member> getCurrentList(){
+        return objList;
     }
 
     public int size(){

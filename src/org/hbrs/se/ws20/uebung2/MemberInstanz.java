@@ -1,6 +1,8 @@
 package org.hbrs.se.ws20.uebung2;
 
-public class MemberInstanz implements Member{
+import java.io.Serializable;
+
+public class MemberInstanz implements Member, Serializable {
     Integer ID;
     public Integer getID(){
         return this.ID;
